@@ -96,6 +96,7 @@
             border-radius: 14px;
             padding: 8px 14px;
             backdrop-filter: blur(5px);
+            cursor: pointer;
         }
         .top-contact-right span {
             font-size: 0.9em;
@@ -109,41 +110,55 @@
             background: white;
             padding: 3px;
             object-fit: contain;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .qr-mini:hover {
-            transform: scale(1.05);
         }
 
-        /* 二维码放大灯箱（点击后显示） */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-        .lightbox.active {
-            display: flex;
-        }
-        .lightbox img {
-            width: 250px;
-            height: 250px;
-            border-radius: 16px;
-            background: white;
-            padding: 10px;
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-        }
+  /* ========== 二维码放大弹窗（顶部弹出） ========== */
+.qr-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: flex-start;      /* 改为从顶部开始对齐 */
+    padding-top: 80px;            /* 距离屏幕顶部的距离，可自行调整 */
+}
+.qr-modal-overlay.active {
+    display: flex;
+}
+.qr-modal-card {
+    background: white;
+    border-radius: 24px;
+    padding: 25px 20px 20px;
+    text-align: center;
+    width: 280px;
+    max-width: 90%;
+}
+.qr-modal-card img {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    display: block;
+    margin: 0 auto 12px;
+}
+.qr-modal-card p {
+    color: #333;
+    font-size: 0.95em;
+    margin-bottom: 8px;
+}
+.qr-modal-close {
+    margin-top: 10px;
+    background: #f0f0f0;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 60px;
+    font-size: 1em;
+    color: #333;
+    cursor: pointer;
+}
 
         /* 主内容区 */
         .main-content {
@@ -358,22 +373,25 @@
 
     <div class="container">
 
-        <!-- ========== 最上端联系栏：姓名 + 电话 + 微信小二维码 ========== -->
+        <!-- ========== 最上端联系栏 ========== -->
         <div class="top-contact-bar">
             <div class="top-contact-left">
                 <div class="owner">👤 赵会兵</div>
                 <a href="tel:13834906568">📞 138-3490-6568</a>
             </div>
-            <div class="top-contact-right" onclick="document.getElementById('qrLightbox').classList.add('active')">
-                <img class="qr-mini" src="wechat.jpg" alt="微信二维码">
+            <div class="top-contact-right" id="openQrBtn">
+                <img class="qr-mini" src="wechat.png" alt="微信二维码">
                 <span>扫码加微信<br>咨询报价</span>
             </div>
         </div>
 
-        <!-- 二维码放大弹窗 -->
-        <div class="lightbox" id="qrLightbox" onclick="this.classList.remove('active')">
-            <span class="lightbox-close">&times;</span>
-            <img src="wechat.jpg" alt="微信二维码">
+        <!-- ========== 二维码放大弹窗 ========== -->
+        <div class="qr-modal-overlay" id="qrModal">
+            <div class="qr-modal-card">
+                <img src="wechat.png" alt="微信二维码">
+                <p>📱 微信扫一扫添加好友</p>
+                <button class="qr-modal-close" id="closeQrBtn">关闭</button>
+            </div>
         </div>
 
         <!-- ========== 主体内容 ========== -->
@@ -415,114 +433,110 @@
                 </div>
             </div>
 
-            <!-- 产品系列（可无限增加） -->
+            <!-- 浴室柜系列 -->
             <div class="section-title">
-                <span>🚿</span> 精选系列
+                <span>🪞</span> 浴室柜系列
             </div>
-            <!-- ========== 产品系列：浴室柜专区 ========== -->
-<div class="section-title">
-    <span>🪞</span> 浴室柜系列
-</div>
-<div class="product-grid" id="productList">
-    <!-- 产品1 -->
-    <div class="product-item">
-        <img src="product-1.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-1 </div>
-    </div>
-    <!-- 产品2 -->
-    <div class="product-item">
-        <img src="product-2.png" alt="浴室柜">
-        <div class="p-name">浴室柜-2</div>
-    </div>
-    <!-- 产品3 -->
-    <div class="product-item">
-        <img src="product-3.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-3</div>
-    </div>
-    <!-- 产品4 -->
-    <div class="product-item">
-        <img src="product-4.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-4</div>
-    </div>
-    <!-- 产品5 -->
-    <div class="product-item">
-        <img src="product-5.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-5</div>
-    </div>
-    <!-- 产品6 -->
-    <div class="product-item">
-        <img src="product-6.png" alt="浴室柜">
-        <div class="p-name">浴室柜-6</div>
-    </div>
-    <!-- 产品7 -->
-    <div class="product-item">
-        <img src="product-7.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-7</div>
-    </div>
-    <!-- 产品8 -->
-    <div class="product-item">
-        <img src="product-8.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-8</div>
-    </div>
-    <!-- 产品9 -->
-    <div class="product-item">
-        <img src="product-9.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-9</div>
-    </div>
-    <!-- 产品10 -->
-    <div class="product-item">
-        <img src="product-10.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-10</div>
-    </div>
-    <!-- 产品11 -->
-    <div class="product-item">
-        <img src="product-11.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-11</div>
-    </div>
-    <!-- 产品12 -->
-    <div class="product-item">
-        <img src="product-12.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-12</div>
-    </div>
-    <!-- 产品13 -->
-    <div class="product-item">
-        <img src="product-7.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-13</div>
-    </div>
-    <!-- 产品14 -->
-    <div class="product-item">
-        <img src="product-8.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-14</div>
-    </div>
-    <!-- 产品15 -->
-    <div class="product-item">
-        <img src="product-9.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-15</div>
-    </div>
-    <!-- 产品16 -->
-    <div class="product-item">
-        <img src="product-10.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-16</div>
-    </div>
-    <!-- 产品17 -->
-    <div class="product-item">
-        <img src="product-11.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-17</div>
-    </div>
-    <!-- 产品18 -->
-    <div class="product-item">
-        <img src="product-12.jpg" alt="浴室柜">
-        <div class="p-name">浴室柜-18</div>
-    </div>
-    <!-- 🔧 继续复制上面的 product-item 可以无限增加 -->
-</div>
+            <div class="product-grid" id="productList">
+                <!-- 产品1 -->
+                <div class="product-item">
+                    <img src="product-1.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-1 </div>
+                </div>
+                <!-- 产品2 -->
+                <div class="product-item">
+                    <img src="product-2.png" alt="浴室柜">
+                    <div class="p-name">浴室柜-2</div>
+                </div>
+                <!-- 产品3 -->
+                <div class="product-item">
+                    <img src="product-3.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-3</div>
+                </div>
+                <!-- 产品4 -->
+                <div class="product-item">
+                    <img src="product-4.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-4</div>
+                </div>
+                <!-- 产品5 -->
+                <div class="product-item">
+                    <img src="product-5.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-5</div>
+                </div>
+                <!-- 产品6 -->
+                <div class="product-item">
+                    <img src="product-6.png" alt="浴室柜">
+                    <div class="p-name">浴室柜-6</div>
+                </div>
+                <!-- 产品7 -->
+                <div class="product-item">
+                    <img src="product-7.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-7</div>
+                </div>
+                <!-- 产品8 -->
+                <div class="product-item">
+                    <img src="product-8.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-8</div>
+                </div>
+                <!-- 产品9 -->
+                <div class="product-item">
+                    <img src="product-9.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-9</div>
+                </div>
+                <!-- 产品10 -->
+                <div class="product-item">
+                    <img src="product-10.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-10</div>
+                </div>
+                <!-- 产品11 -->
+                <div class="product-item">
+                    <img src="product-11.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-11</div>
+                </div>
+                <!-- 产品12 -->
+                <div class="product-item">
+                    <img src="product-12.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-12</div>
+                </div>
+                <!-- 产品13 -->
+                <div class="product-item">
+                    <img src="product-13.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-13</div>
+                </div>
+                <!-- 产品14 -->
+                <div class="product-item">
+                    <img src="product-14.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-14</div>
+                </div>
+                <!-- 产品15 -->
+                <div class="product-item">
+                    <img src="product-15.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-15</div>
+                </div>
+                <!-- 产品16 -->
+                <div class="product-item">
+                    <img src="product-16.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-16</div>
+                </div>
+                <!-- 产品17 -->
+                <div class="product-item">
+                    <img src="product-17.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-17</div>
+                </div>
+                <!-- 产品18 -->
+                <div class="product-item">
+                    <img src="product-18.jpg" alt="浴室柜">
+                    <div class="p-name">浴室柜-18</div>
+                </div>
+                <!-- 🔧 继续复制上面的 product-item 可以无限增加 -->
+            </div>
 
-            <!-- 底部联系区域（保留作为强化） -->
+            <!-- 底部联系区域 -->
             <div class="contact-box">
                 <h2>📞 更多联系方式</h2>
                 <div class="contact-row">
                     <a href="tel:13834906568" class="contact-item">📱 拨打电话</a>
-                                  </div>
+                </div>
                 <p style="color:#475569; font-size:0.9em;">或直接扫描顶部微信二维码咨询</p>
             </div>
 
@@ -534,10 +548,29 @@
     </div>
 
     <script>
-        // 点击二维码放大灯箱，点击任意区域关闭
-        document.getElementById('qrLightbox').addEventListener('click', function(e) {
-            if (e.target === this || e.target.className === 'lightbox-close') {
-                this.classList.remove('active');
+        const modal = document.getElementById('qrModal');
+        const openBtn = document.getElementById('openQrBtn');
+        const closeBtn = document.getElementById('closeQrBtn');
+
+        if (openBtn) {
+            openBtn.addEventListener('click', function() {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
             }
         });
     </script>
